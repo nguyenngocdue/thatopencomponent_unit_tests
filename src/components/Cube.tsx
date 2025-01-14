@@ -27,7 +27,12 @@ export const Cube = () => {
     const controls = new OrbitControls(camera, renderer.domElement);
 
     // Orbit Controls Gizmo
-    const controlsGizmo = new OrbitControlsGizmo(controls, { size: 100, padding: 8 });
+    const controlsGizmo = new OrbitControlsGizmo(controls, {
+       size: 100, 
+       padding: 8,
+       bubbleSizePrimary: 9,
+       lineWidth: 3,
+      });
 
     // Add the Gizmo to the document
     document.body.appendChild(controlsGizmo.domElement);

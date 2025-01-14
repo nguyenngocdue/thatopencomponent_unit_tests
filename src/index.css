@@ -61,32 +61,6 @@ body {
 	overflow: hidden;
 }
 
-.obit-controls-gizmo {
-	position: absolute;
-	top: 2em;
-	right: 2em;
-    z-index: 1000;
-    background-color: #FFF0;
-    border-radius: 100%;
-    transition: background-color .15s linear;
-    cursor: pointer;
-}
-
-.obit-controls-gizmo.dragging, .obit-controls-gizmo:hover  {
-    background-color: #FFF3;
-    
-}
-
-.obit-controls-gizmo.inactive {
-    pointer-events: none;
-    background-color: #FFF0 !important; 
-}
-
-.dg.a {
-    float: left !important;
-    margin-left: 2em !important;
-}
-
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -99,5 +73,27 @@ body {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+.obit-controls-gizmo {
+  position: absolute;
+  top: 2em;
+  right: 2em;
+  z-index: 1000;
+  background-color: #FFF0;
+  border-radius: 100%;
+  transition: background-color .15s  linear;
+  cursor: pointer;
+}
+
+.obit-controls-gizmo.dragging, 
+.obit-controls-gizmo:hover {
+  background-color: #FFF3;
+}
+
+.obit-controls-gizmo.inactive {
+  pointer-events: none;
+  background-color: #FFF0  !important;
 }
 
