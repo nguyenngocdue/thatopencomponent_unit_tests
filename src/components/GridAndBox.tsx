@@ -1,18 +1,13 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import * as OBC from '@thatopen/components';
 import * as BUI from '@thatopen/ui';
 import Stats from 'stats.js';
-import { Cube } from './Cube';
 
-export const Grid = () => {
+export const GridAndBox = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const cameraRef = useRef<THREE.PerspectiveCamera | THREE.OrthographicCamera | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const gridGeometryRef = useRef<THREE.BoxGeometry | null>(null);
-  const sceneRef = useRef<THREE.Scene | null>(null);
-  const gridRef = useRef<OBC.Grid | null>(null);
-  const [isReady, setReady] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -36,18 +31,19 @@ export const Grid = () => {
 
     cameraRef.current = world.camera.three; // Gán camera
     rendererRef.current = world.renderer.three; // Gán renderer
-    sceneRef.current = world.scene.three; // Gán scene
 
     components.init();
 
-    // Thêm geometry cho cube
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    gridGeometryRef.current = geometry;
+    // Thêm cube
+    const cube = new THREE.Mesh(
+      new THREE.BoxGeometry(),
+      new THREE.MeshBasicMaterial({ color: 'red' })
+    );
+    world.scene.three.add(cube);
 
     // Cấu hình grids
     const grids = components.get(OBC.Grids);
     const grid = grids.create(world);
-    gridRef.current = grid;
 
     // Tạo panel điều khiển
     const panel = BUI.Component.create<BUI.PanelSection>(() => {
@@ -89,53 +85,30 @@ export const Grid = () => {
 
     // Cấu hình Stats
     const stats = new Stats();
-    stats.showPanel(0); // Hiển thị FPS
+    stats.showPanel(2);
     container.appendChild(stats.dom);
+    stats.dom.style.left = '0px';
+    stats.dom.style.zIndex = 'unset';
 
     // Thêm Stats vào vòng lặp renderer
     world.renderer.onBeforeUpdate.add(() => stats.begin());
     world.renderer.onAfterUpdate.add(() => stats.end());
 
-    const handleResize = () => {
-      if (cameraRef.current && rendererRef.current) {
-        const width = container.clientWidth;
-        const height = container.clientHeight;
-        cameraRef.current.aspect = width / height;
-        cameraRef.current.updateProjectionMatrix();
-        rendererRef.current.setSize(width, height);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    setReady(true);
-
+    // Cleanup khi component bị unmount
     return () => {
-      window.removeEventListener('resize', handleResize);
-      stats.dom.remove();
       world.renderer.dispose();
-      geometry.dispose();
+      container.removeChild(panel);
+      container.removeChild(stats.dom);
     };
   }, []);
 
-
   return (
-    <>
-      <div
-        id="container"
-        ref={containerRef}
-        style={{ position: 'relative', width: '100vw', height: '100vh' }}
-      >
-      </div>
-      {containerRef.current && sceneRef.current && cameraRef.current && gridGeometryRef.current && rendererRef.current && (
-        <Cube
-          container={containerRef.current}
-          scene={sceneRef.current}
-          camera={cameraRef.current}
-          geometry={gridGeometryRef.current}
-          renderer={rendererRef.current}
-        />
-      )}
-    </>
+    <div
+      id="container"
+      ref={containerRef}
+      style={{ position: 'relative', width: '100vw', height: '100vh' }}
+    >
+      
+    </div>
   );
-  
 };
