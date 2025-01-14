@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
-import { Grids } from './components/Grids';
+import { Grid } from './components/Grid';
+import { Cube } from './components/Cube';
 
 function App() {
     return (
         <>
-            <Grids />
+            <Cube />
         </>
     );
 }
