@@ -55,7 +55,7 @@ const ComplexGridLayout: React.FC = () => {
         : isLeftSidebarVisible || isRightSidebarVisible
         ? 10 // Mở rộng khi một Sidebar bị ẩn
         : 12, // Toàn bộ khi cả hai Sidebar bị ẩn
-      h: 7,
+      h: 7.5,
     },
   ];
 
@@ -121,7 +121,7 @@ const ComplexGridLayout: React.FC = () => {
 
           <div
             key="main"
-            onMouseEnter={() => setIsDraggingEnabled(true)} // Kích hoạt draggable khi vào vùng MainContent
+            onMouseEnter={() => setIsDraggingEnabled(false)} // Kích hoạt draggable khi vào vùng MainContent
             onMouseLeave={() => setIsDraggingEnabled(false)} // Tắt draggable khi rời vùng MainContent
             style={{
               background: currentTheme.mainBg,
