@@ -26,7 +26,7 @@ const ComplexGridLayout: React.FC = () => {
   const layout = [
     { i: 'header', x: 0, y: 0, w: 12, h: 2, static: true }, // Header cố định
     { i: 'footer', x: 0, y: 10, w: 12, h: 2, static: true }, // Footer cố định
-    { i: 'leftSidebar', x: 0, y: 0, w: 2, h: 7.15 }, // Resize từ cạnh phải
+    { i: 'leftSidebar', x: 0, y: 0, w: 2, h: 7.15,  }, // Resize từ cạnh phải
     { i: 'main', x: 2, y: 0, w: 8, h: 6 }, // Resize từ cạnh trái và phải
     { i: 'rightSidebar', x: 10, y: 0, w: 2, h: 7.15}, // Resize từ cạnh trái
   ];
