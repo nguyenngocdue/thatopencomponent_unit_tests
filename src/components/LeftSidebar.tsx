@@ -1,9 +1,16 @@
 import React from 'react';
 
-const LeftSidebar: React.FC = () => {
+interface Props {
+  onClose: () => void;  // Thêm prop cho hàm đóng
+}
+
+const LeftSidebar: React.FC<Props> = ({ onClose }) => {
   return (
-    <div style={{ background: '#ddd' }}>
+    <div style={{ background: '#ddd', height: '100%', position: 'relative' }}>
       Left Sidebar
+      <button onClick={onClose} style={{ position: 'absolute', top: 0, right: 0 }}>
+        Close
+      </button>
     </div>
   );
 };
