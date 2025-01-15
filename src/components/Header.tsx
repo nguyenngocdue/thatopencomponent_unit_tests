@@ -1,24 +1,33 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Theme } from './ThemeColors';
 
-const Header = ({ onClose }) => {
+interface HeaderProps {
+  onToggleTheme: () => void;
+  isDarkTheme: boolean;
+  theme: Theme;
+}
+
+const Header: React.FC<HeaderProps> = ({ onToggleTheme, isDarkTheme, theme }) => {
   return (
-    <div className="bg-blue-500 text-white relative px-5 py-3 text-lg flex items-center">
-      <span>Header Content</span>
-      <div className="absolute top-0 right-0 w-12 h-full flex items-center justify-center z-50">
-        <button
-          onClick={() => {
-            console.log('Close button clicked');
-            onClose(); // Gọi hàm onClose từ props
-          }}
-          className="text-white text-xl hover:opacity-80 transition-opacity duration-200"
-          aria-label="Close Header"
-        >
-          <FontAwesomeIcon icon={faTimes} />
-        </button>
-      </div>
-    </div>
+    <header
+      className="relative text-center p-3"
+      style={{
+        backgroundColor: theme.headerFooterBg,
+        color: theme.color,
+      }}
+    >
+      <h1 className="text-xl font-bold">Complex Grid Layout</h1>
+      <button
+        onClick={onToggleTheme}
+        className="absolute top-2 right-5 px-4 py-2 rounded-lg shadow-md transition-opacity duration-200 hover:opacity-80"
+        style={{
+          backgroundColor: theme.buttonBg,
+          color: theme.buttonText,
+        }}
+      >
+        {isDarkTheme ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+      </button>
+    </header>
   );
 };
 
