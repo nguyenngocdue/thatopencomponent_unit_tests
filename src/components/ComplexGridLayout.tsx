@@ -12,7 +12,7 @@ import { lightTheme, darkTheme, Theme } from './ThemeColors';
 const ComplexGridLayout: React.FC = () => {
   const [width, setWidth] = useState(window.innerWidth);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768); // Kiểm tra màn hình nhỏ
-  const [isDarkTheme, setIsDarkTheme] = useState(false); // Trạng thái theme (sáng/tối)
+  const [isDarkTheme, setIsDarkTheme] = useState(true); // Trạng thái theme (sáng/tối)
 
   const currentTheme: Theme = isDarkTheme ? darkTheme : lightTheme; // Sử dụng theme từ ThemeColors.ts
 
@@ -27,7 +27,7 @@ const ComplexGridLayout: React.FC = () => {
   }, []);
 
   const headerHeight = 60; // Chiều cao Header (px)
-  const footerHeight = 60; // Chiều cao Footer (px)
+  const footerHeight = 50; // Chiều cao Footer (px)
   const rowHeight = (window.innerHeight - headerHeight - footerHeight) / 8; // Chia đều cho 8 hàng
   const margin = [10, 10]; // Khoảng cách giữa các phần tử: [dọc, ngang]
 
@@ -37,8 +37,8 @@ const ComplexGridLayout: React.FC = () => {
     ...(isSmallScreen
       ? []
       : [
-        { i: 'leftSidebar', x: 0, y: 0, w: 2, h: 7 }, // Left Sidebar
-        { i: 'rightSidebar', x: 10, y: 0, w: 2, h: 7 }, // Right Sidebar
+        { i: 'leftSidebar', x: 0, y: 0, w: 2, h: 7.5 }, // Left Sidebar
+        { i: 'rightSidebar', x: 10, y: 0, w: 2, h: 7.5 }, // Right Sidebar
       ]),
     { i: 'main', x: 2, y: 0, w: isSmallScreen ? 12 : 8, h: 7 }, // Main Content chiếm toàn bộ chiều rộng khi màn hình nhỏ
   ];
@@ -46,6 +46,8 @@ const ComplexGridLayout: React.FC = () => {
   return (
     <div
       style={{
+        display: 'flex',
+        flexDirection: 'column',
         height: '100vh',
         background: currentTheme.background,
         color: currentTheme.color,
@@ -67,7 +69,7 @@ const ComplexGridLayout: React.FC = () => {
           theme={currentTheme}
         />
       </div>
-
+  
       {/* Main Area */}
       <div style={{ flexGrow: 1, position: 'relative', overflow: 'hidden' }}>
         <GridLayout
@@ -96,16 +98,16 @@ const ComplexGridLayout: React.FC = () => {
               />
             </div>
           )}
-
+  
           <div
             key="main"
             style={{
               background: currentTheme.mainBg,
             }}
           >
-           <MainContent theme={currentTheme} />
+            <MainContent theme={currentTheme} />
           </div>
-
+  
           {!isSmallScreen && (
             <div
               key="rightSidebar"
@@ -121,7 +123,7 @@ const ComplexGridLayout: React.FC = () => {
           )}
         </GridLayout>
       </div>
-
+  
       {/* Footer */}
       <div
         style={{
@@ -129,12 +131,14 @@ const ComplexGridLayout: React.FC = () => {
           height: `${footerHeight}px`,
           background: currentTheme.headerFooterBg,
           zIndex: 10,
+          position: 'relative',
         }}
       >
         <Footer theme={currentTheme} />
       </div>
     </div>
   );
+  
 };
 
 export default ComplexGridLayout;
