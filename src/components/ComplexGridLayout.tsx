@@ -85,7 +85,7 @@ const ComplexGridLayout: React.FC = () => {
           theme={currentTheme}
         />
       </div>
-  
+
       {/* Main Area */}
       <div style={{ flexGrow: 1, position: 'relative', overflow: 'hidden' }}>
         <GridLayout
@@ -104,8 +104,12 @@ const ComplexGridLayout: React.FC = () => {
           {!isSmallScreen && isLeftSidebarVisible && (
             <div
               key="leftSidebar"
+              className="draggable-handle"
+              onMouseEnter={() => setIsDraggingEnabled(true)} // Kích hoạt draggable khi vào vùng Sidebar
+              onMouseLeave={() => setIsDraggingEnabled(false)} // Tắt draggable khi rời vùng Sidebar
               style={{
                 background: currentTheme.sidebarBg,
+                cursor: 'move',
               }}
             >
               <LeftSidebar
@@ -114,11 +118,11 @@ const ComplexGridLayout: React.FC = () => {
               />
             </div>
           )}
-  
+
           <div
             key="main"
-            onMouseEnter={() => setIsDraggingEnabled(true)} // Kích hoạt draggable khi vào vùng main
-            onMouseLeave={() => setIsDraggingEnabled(false)} // Tắt draggable khi ra khỏi vùng main
+            onMouseEnter={() => setIsDraggingEnabled(true)} // Kích hoạt draggable khi vào vùng MainContent
+            onMouseLeave={() => setIsDraggingEnabled(false)} // Tắt draggable khi rời vùng MainContent
             style={{
               background: currentTheme.mainBg,
               cursor: isDraggingEnabled ? 'move' : 'default', // Hiển thị mũi tên 4 chiều khi kéo
@@ -126,12 +130,16 @@ const ComplexGridLayout: React.FC = () => {
           >
             <MainContent theme={currentTheme} />
           </div>
-  
+
           {!isSmallScreen && isRightSidebarVisible && (
             <div
               key="rightSidebar"
+              className="draggable-handle"
+              onMouseEnter={() => setIsDraggingEnabled(true)} // Kích hoạt draggable khi vào vùng Sidebar
+              onMouseLeave={() => setIsDraggingEnabled(false)} // Tắt draggable khi rời vùng Sidebar
               style={{
                 background: currentTheme.sidebarBg,
+                cursor: 'move',
               }}
             >
               <RightSidebar
@@ -142,7 +150,7 @@ const ComplexGridLayout: React.FC = () => {
           )}
         </GridLayout>
       </div>
-  
+
       {/* Footer */}
       <div
         style={{
