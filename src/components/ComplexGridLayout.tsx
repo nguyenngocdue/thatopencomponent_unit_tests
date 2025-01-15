@@ -10,9 +10,14 @@ import Footer from './Footer';
 
 const ComplexGridLayout: React.FC = () => {
   const [width, setWidth] = useState(window.innerWidth);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768); // Kiểm tra màn hình nhỏ
 
   useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+      setIsSmallScreen(window.innerWidth < 768); // Cập nhật trạng thái màn hình nhỏ
+    };
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -26,9 +31,14 @@ const ComplexGridLayout: React.FC = () => {
   const layout = [
     { i: 'header', x: 0, y: 0, w: 12, h: 2, static: true }, // Header cố định
     { i: 'footer', x: 0, y: 10, w: 12, h: 2, static: true }, // Footer cố định
-    { i: 'leftSidebar', x: 0, y: 0, w: 2, h: 7.15,  }, // Resize từ cạnh phải
-    { i: 'main', x: 2, y: 0, w: 8, h: 6 }, // Resize từ cạnh trái và phải
-    { i: 'rightSidebar', x: 10, y: 0, w: 2, h: 7.15}, // Resize từ cạnh trái
+    // Chỉ hiển thị LeftSidebar và RightSidebar khi màn hình lớn
+    ...(isSmallScreen
+      ? []
+      : [
+          { i: 'leftSidebar', x: 0, y: 0, w: 2, h: 7 }, // Left Sidebar
+          { i: 'rightSidebar', x: 10, y: 0, w: 2, h: 7 }, // Right Sidebar
+        ]),
+    { i: 'main', x: 2, y: 0, w: isSmallScreen ? 12 : 8, h: 7 }, // Main Content chiếm toàn bộ chiều rộng khi màn hình nhỏ
   ];
 
   return (
@@ -54,19 +64,23 @@ const ComplexGridLayout: React.FC = () => {
           preventCollision={true} // Ngăn các thành phần chồng chéo
         >
           {/* Left Sidebar */}
-          <div key="leftSidebar" className="bg-blue-500 text-white h-full">
-            <LeftSidebar />
-          </div>
+          {!isSmallScreen && (
+            <div key="leftSidebar" className="bg-blue-500 text-white h-full">
+              <LeftSidebar />
+            </div>
+          )}
 
           {/* Main Content */}
-          <div key="main" className="bg-white text-gray-800">
+          <div key="main" className="bg-white text-gray-800 h-full">
             <MainContent />
           </div>
 
           {/* Right Sidebar */}
-          <div key="rightSidebar" className="bg-blue-500 text-white h-full">
-            <RightSidebar />
-          </div>
+          {!isSmallScreen && (
+            <div key="rightSidebar" className="bg-blue-500 text-white h-full">
+              <RightSidebar />
+            </div>
+          )}
         </GridLayout>
       </div>
 
