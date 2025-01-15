@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Cube } from './Cube';
+import { Grid } from './Grid';
 
 const TabViewWithAutoLayout: React.FC = () => {
   const [activeTab, setActiveTab] = useState('View1'); // Tab đang được chọn
@@ -80,8 +82,9 @@ const TabViewWithAutoLayout: React.FC = () => {
       const activeView = views.find((view) => view.id === activeTab);
       return (
         <div style={{ padding: '10px', backgroundColor: '#f9f9f9', height: '100%' }}>
-          <h2>{activeView?.id}</h2>
-          <p>{activeView?.content}</p>
+          {/* <h2>{activeView?.id}</h2> */}
+          {/* <p>{activeView?.content}</p> */}
+          <Grid/>
         </div>
       );
     }
