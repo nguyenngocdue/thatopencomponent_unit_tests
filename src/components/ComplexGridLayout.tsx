@@ -10,53 +10,71 @@ import Footer from './Footer';
 
 const ComplexGridLayout: React.FC = () => {
   const [width, setWidth] = useState(window.innerWidth);
-  const [showLeftSidebar, setShowLeftSidebar] = useState(true);
-  const [showRightSidebar, setShowRightSidebar] = useState(true);
-  const [showFooter, setShowFooter] = useState(true);
-  const [showHeader, setShowHeader] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // Trạng thái cho thiết bị di động
 
   useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-      setIsMobile(window.innerWidth <= 768); // Cập nhật trạng thái dựa trên chiều rộng màn hình
-    };
-
+    const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const closeHeader = () => setShowHeader(false);
-  const closeLeftSidebar = () => setShowLeftSidebar(false);
-  const closeRightSidebar = () => setShowRightSidebar(false);
-  const closeFooter = () => setShowFooter(false);
+  const headerHeight = 60; // Chiều cao Header (px)
+  const footerHeight = 60; // Chiều cao Footer (px)
+  const rowHeight = (window.innerHeight - headerHeight - footerHeight) / 8; // Chia đều cho 8 hàng
+  const margin = [10, 10]; // Khoảng cách giữa các phần tử: [dọc, ngang]
 
-  const headerHeight = showHeader ? 2 : 0;
+  // Layout configuration
   const layout = [
-    {i: 'header', x: 0, y: 0, w: 12, h: headerHeight, static: true},
-    {i: 'leftSidebar', x: 0, y: headerHeight, w: showLeftSidebar && !isMobile ? 1 : 0, h: 11, static: true},
-    {i: 'main', x: (showLeftSidebar && !isMobile) ? 1 : 0, y: headerHeight, w: 12 - ((showLeftSidebar && !isMobile) ? 1 : 0) - ((showRightSidebar && !isMobile) ? 1 : 0), h: showFooter ? 10 : 11},
-    {i: 'footer', x: (showLeftSidebar && !isMobile) ? 1 : 0, y: 12 + (showHeader ? 0 : -2), w: 12 - ((showLeftSidebar && !isMobile) ? 1 : 0) - ((showRightSidebar && !isMobile) ? 1 : 0), h: showFooter ? 1 : 0, static: true},
-    {i: 'rightSidebar', x: 12 - ((showRightSidebar && !isMobile) ? 1 : 0), y: headerHeight, w: showRightSidebar && !isMobile ? 1 : 0, h: 11, static: true}
+    { i: 'header', x: 0, y: 0, w: 12, h: 2, static: true }, // Header cố định
+    { i: 'footer', x: 0, y: 10, w: 12, h: 2, static: true }, // Footer cố định
+    { i: 'leftSidebar', x: 0, y: 0, w: 2, h: 7.15 }, // Resize từ cạnh phải
+    { i: 'main', x: 2, y: 0, w: 8, h: 6 }, // Resize từ cạnh trái và phải
+    { i: 'rightSidebar', x: 10, y: 0, w: 2, h: 7.15}, // Resize từ cạnh trái
   ];
 
   return (
-    <GridLayout
-      className="layout"
-      layout={layout}
-      cols={12}
-      rowHeight={30}
-      width={width}
-      autoSize={true}
-      isResizable={true}
-      isDraggable={true}
-    >
-      {showHeader && <div key="header"><Header onClose={closeHeader} /></div>}
-      {showLeftSidebar && !isMobile && <div key="leftSidebar"><LeftSidebar onClose={closeLeftSidebar} /></div>}
-      <div key="main"><MainContent /></div>
-      {showFooter && <div key="footer"><Footer onClose={closeFooter} /></div>}
-      {showRightSidebar && !isMobile && <div key="rightSidebar"><RightSidebar onClose={closeRightSidebar} /></div>}
-    </GridLayout>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* Header */}
+      <div style={{ flexShrink: 0, height: `${headerHeight}px`, background: '#4A90E2', zIndex: 10 }}>
+        <Header />
+      </div>
+
+      {/* Main Area */}
+      <div style={{ flexGrow: 1, position: 'relative', overflow: 'hidden' }}>
+        <GridLayout
+          className="layout"
+          layout={layout}
+          cols={12}
+          rowHeight={rowHeight}
+          width={width}
+          margin={margin} // Khoảng cách giữa các phần tử
+          autoSize={true}
+          isResizable={true} // Cho phép resize
+          isDraggable={true} // Cho phép kéo thả
+          compactType={null} // Không tự động điều chỉnh các phần tử
+          preventCollision={true} // Ngăn các thành phần chồng chéo
+        >
+          {/* Left Sidebar */}
+          <div key="leftSidebar" className="bg-blue-500 text-white h-full">
+            <LeftSidebar />
+          </div>
+
+          {/* Main Content */}
+          <div key="main" className="bg-white text-gray-800">
+            <MainContent />
+          </div>
+
+          {/* Right Sidebar */}
+          <div key="rightSidebar" className="bg-blue-500 text-white h-full">
+            <RightSidebar />
+          </div>
+        </GridLayout>
+      </div>
+
+      {/* Footer */}
+      <div style={{ flexShrink: 0, height: `${footerHeight}px`, background: '#4A90E2', zIndex: 10 }}>
+        <Footer />
+      </div>
+    </div>
   );
 };
 

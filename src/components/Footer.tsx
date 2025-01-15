@@ -1,15 +1,17 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-interface Props {
-  onClose: () => void; // Prop để xử lý việc đóng Footer
-}
-
-const Footer: React.FC<Props> = ({ onClose }) => {
+const Footer = ({ onClose }) => {
   return (
-    <div style={{ background: '#eee', position: 'relative', width: '100%', height: '100%' }}>
-      Footer
-      <button onClick={onClose} style={{ position: 'absolute', top: 0, right: 0 }}>
-        Close
+    <div className="bg-blue-500 text-white relative px-5 py-3 shadow-md">
+      <p>Footer Content</p>
+      <button
+        onClick={onClose}
+        className="absolute top-2 right-5 text-white text-xl hover:opacity-80 transition-opacity"
+        aria-label="Close Footer"
+      >
+        <FontAwesomeIcon icon={faTimes} />
       </button>
     </div>
   );
