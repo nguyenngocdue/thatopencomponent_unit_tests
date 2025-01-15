@@ -41,3 +41,32 @@
   color: #888;
 }
 
+
+/* App.css */
+.container {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: auto 1fr auto;
+}
+
+.sidebar {
+  grid-row: span 3;
+  background: #ccc; /* Màu nền */
+}
+
+.header {
+  grid-column: 2;
+  background: #f3f3f3; /* Màu nền */
+}
+
+.main {
+  grid-column: 2;
+  background: #fff; /* Màu nền */
+}
+
+.footer {
+  grid-column: 2;
+  background: #eaeaea; /* Màu nền */
+}
+

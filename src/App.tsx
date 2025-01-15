@@ -1,14 +1,12 @@
 import React from 'react';
-import './App.css';
-import { Grid } from './components/Grid';
+import ComplexGridLayout from './components/ComplexGridLayout';
 
 function App() {
-    return (
-        <>
-            {/* <CubeAndBox/> */}
-            <Grid />
-        </>
-    );
+  return (
+    <>
+      <ComplexGridLayout />
+    </>
+  );
 }
 
 export default App;
