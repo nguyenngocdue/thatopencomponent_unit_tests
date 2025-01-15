@@ -10,16 +10,16 @@ import Footer from './Footer';
 
 const ComplexGridLayout: React.FC = () => {
   const [width, setWidth] = useState(window.innerWidth);
-  const [height, setHeight] = useState(window.innerHeight);
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
   const [showRightSidebar, setShowRightSidebar] = useState(true);
   const [showFooter, setShowFooter] = useState(true);
   const [showHeader, setShowHeader] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // Trạng thái cho thiết bị di động
 
   useEffect(() => {
     const handleResize = () => {
       setWidth(window.innerWidth);
-      setHeight(window.innerHeight);
+      setIsMobile(window.innerWidth <= 768); // Cập nhật trạng thái dựa trên chiều rộng màn hình
     };
 
     window.addEventListener('resize', handleResize);
@@ -34,10 +34,10 @@ const ComplexGridLayout: React.FC = () => {
   const headerHeight = showHeader ? 2 : 0;
   const layout = [
     {i: 'header', x: 0, y: 0, w: 12, h: headerHeight, static: true},
-    {i: 'leftSidebar', x: 0, y: headerHeight, w: showLeftSidebar ? 1 : 0, h: 11, static: true},
-    {i: 'main', x: showLeftSidebar ? 1 : 0, y: headerHeight, w: 12 - (showLeftSidebar ? 1 : 0) - (showRightSidebar ? 1 : 0), h: showFooter ? 10 : 11},
-    {i: 'footer', x: showLeftSidebar ? 1 : 0, y: 12 + (showHeader ? 0 : -2), w: 12 - (showLeftSidebar ? 1 : 0) - (showRightSidebar ? 1 : 0), h: showFooter ? 1 : 0, static: true},
-    {i: 'rightSidebar', x: 12 - (showRightSidebar ? 1 : 0), y: headerHeight, w: showRightSidebar ? 1 : 0, h: 11, static: true}
+    {i: 'leftSidebar', x: 0, y: headerHeight, w: showLeftSidebar && !isMobile ? 1 : 0, h: 11, static: true},
+    {i: 'main', x: (showLeftSidebar && !isMobile) ? 1 : 0, y: headerHeight, w: 12 - ((showLeftSidebar && !isMobile) ? 1 : 0) - ((showRightSidebar && !isMobile) ? 1 : 0), h: showFooter ? 10 : 11},
+    {i: 'footer', x: (showLeftSidebar && !isMobile) ? 1 : 0, y: 12 + (showHeader ? 0 : -2), w: 12 - ((showLeftSidebar && !isMobile) ? 1 : 0) - ((showRightSidebar && !isMobile) ? 1 : 0), h: showFooter ? 1 : 0, static: true},
+    {i: 'rightSidebar', x: 12 - ((showRightSidebar && !isMobile) ? 1 : 0), y: headerHeight, w: showRightSidebar && !isMobile ? 1 : 0, h: 11, static: true}
   ];
 
   return (
@@ -48,12 +48,14 @@ const ComplexGridLayout: React.FC = () => {
       rowHeight={30}
       width={width}
       autoSize={true}
+      isResizable={true}
+      isDraggable={true}
     >
       {showHeader && <div key="header"><Header onClose={closeHeader} /></div>}
-      {showLeftSidebar && <div key="leftSidebar"><LeftSidebar onClose={closeLeftSidebar} /></div>}
+      {showLeftSidebar && !isMobile && <div key="leftSidebar"><LeftSidebar onClose={closeLeftSidebar} /></div>}
       <div key="main"><MainContent /></div>
       {showFooter && <div key="footer"><Footer onClose={closeFooter} /></div>}
-      {showRightSidebar && <div key="rightSidebar"><RightSidebar onClose={closeRightSidebar} /></div>}
+      {showRightSidebar && !isMobile && <div key="rightSidebar"><RightSidebar onClose={closeRightSidebar} /></div>}
     </GridLayout>
   );
 };
