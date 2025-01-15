@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Theme } from './ThemeColors'; // Import kiểu Theme từ ThemeColors.ts
@@ -9,13 +9,18 @@ interface LeftSidebarProps {
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ onClose, theme }) => {
+  const [isDraggingEnabled, setIsDraggingEnabled] = useState(false); // Theo dõi trạng thái con trỏ
+
   return (
     <div
       className="relative h-full p-5"
       style={{
         backgroundColor: theme.sidebarBg,
         color: theme.color,
+        cursor: isDraggingEnabled ? 'move' : 'default', // Thay đổi con trỏ
       }}
+      onMouseEnter={() => setIsDraggingEnabled(true)} // Kích hoạt khi vào vùng sidebar
+      onMouseLeave={() => setIsDraggingEnabled(false)} // Vô hiệu hóa khi rời vùng sidebar
     >
       <span>Left Sidebar Content</span>
       <button

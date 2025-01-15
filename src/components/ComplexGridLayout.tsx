@@ -13,6 +13,9 @@ const ComplexGridLayout: React.FC = () => {
   const [width, setWidth] = useState(window.innerWidth);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768); // Kiểm tra màn hình nhỏ
   const [isDarkTheme, setIsDarkTheme] = useState(true); // Trạng thái theme (sáng/tối)
+  const [isDraggingEnabled, setIsDraggingEnabled] = useState(false); // Theo dõi trạng thái draggable
+  const [isLeftSidebarVisible, setIsLeftSidebarVisible] = useState(true); // Trạng thái hiển thị LeftSidebar
+  const [isRightSidebarVisible, setIsRightSidebarVisible] = useState(true); // Trạng thái hiển thị RightSidebar
 
   const currentTheme: Theme = isDarkTheme ? darkTheme : lightTheme; // Sử dụng theme từ ThemeColors.ts
 
@@ -31,16 +34,29 @@ const ComplexGridLayout: React.FC = () => {
   const rowHeight = (window.innerHeight - headerHeight - footerHeight) / 8; // Chia đều cho 8 hàng
   const margin = [10, 10]; // Khoảng cách giữa các phần tử: [dọc, ngang]
 
+  // Tính toán layout dựa trên trạng thái của LeftSidebar và RightSidebar
   const layout = [
     { i: 'header', x: 0, y: 0, w: 12, h: 2, static: true }, // Header cố định
     { i: 'footer', x: 0, y: 10, w: 12, h: 2, static: true }, // Footer cố định
-    ...(isSmallScreen
-      ? []
-      : [
-        { i: 'leftSidebar', x: 0, y: 0, w: 2, h: 7.5 }, // Left Sidebar
-        { i: 'rightSidebar', x: 10, y: 0, w: 2, h: 7.5 }, // Right Sidebar
-      ]),
-    { i: 'main', x: 2, y: 0, w: isSmallScreen ? 12 : 8, h: 7 }, // Main Content chiếm toàn bộ chiều rộng khi màn hình nhỏ
+    ...(isLeftSidebarVisible
+      ? [{ i: 'leftSidebar', x: 0, y: 0, w: 2, h: 7.5 }] // Left Sidebar
+      : []),
+    ...(isRightSidebarVisible
+      ? [{ i: 'rightSidebar', x: isLeftSidebarVisible ? 10 : 11, y: 0, w: 2, h: 7.5 }] // Right Sidebar
+      : []),
+    {
+      i: 'main',
+      x: isLeftSidebarVisible ? 2 : 0, // MainContent bắt đầu từ 0 nếu không có LeftSidebar
+      y: 0,
+      w: isSmallScreen
+        ? 12
+        : isLeftSidebarVisible && isRightSidebarVisible
+        ? 8 // Giữ khoảng giữa khi cả hai Sidebar hiển thị
+        : isLeftSidebarVisible || isRightSidebarVisible
+        ? 10 // Mở rộng khi một Sidebar bị ẩn
+        : 12, // Toàn bộ khi cả hai Sidebar bị ẩn
+      h: 7,
+    },
   ];
 
   return (
@@ -81,11 +97,11 @@ const ComplexGridLayout: React.FC = () => {
           margin={margin}
           autoSize
           isResizable
-          isDraggable
+          isDraggable={isDraggingEnabled} // Điều kiện hóa draggable
           compactType={null}
           preventCollision
         >
-          {!isSmallScreen && (
+          {!isSmallScreen && isLeftSidebarVisible && (
             <div
               key="leftSidebar"
               style={{
@@ -93,7 +109,7 @@ const ComplexGridLayout: React.FC = () => {
               }}
             >
               <LeftSidebar
-                onClose={() => console.log('Left Sidebar closed')}
+                onClose={() => setIsLeftSidebarVisible(false)} // Đóng LeftSidebar khi nhấn nút X
                 theme={currentTheme}
               />
             </div>
@@ -101,14 +117,17 @@ const ComplexGridLayout: React.FC = () => {
   
           <div
             key="main"
+            onMouseEnter={() => setIsDraggingEnabled(true)} // Kích hoạt draggable khi vào vùng main
+            onMouseLeave={() => setIsDraggingEnabled(false)} // Tắt draggable khi ra khỏi vùng main
             style={{
               background: currentTheme.mainBg,
+              cursor: isDraggingEnabled ? 'move' : 'default', // Hiển thị mũi tên 4 chiều khi kéo
             }}
           >
             <MainContent theme={currentTheme} />
           </div>
   
-          {!isSmallScreen && (
+          {!isSmallScreen && isRightSidebarVisible && (
             <div
               key="rightSidebar"
               style={{
@@ -116,7 +135,7 @@ const ComplexGridLayout: React.FC = () => {
               }}
             >
               <RightSidebar
-                onClose={() => console.log('Right Sidebar closed')}
+                onClose={() => setIsRightSidebarVisible(false)} // Đóng RightSidebar khi nhấn nút X
                 theme={currentTheme}
               />
             </div>
@@ -138,7 +157,6 @@ const ComplexGridLayout: React.FC = () => {
       </div>
     </div>
   );
-  
 };
 
 export default ComplexGridLayout;
