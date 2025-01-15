@@ -9,7 +9,7 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ theme }) => {
   return (
     <div
-      className="rounded-lg shadow-md"
+      className="rounded-lg shadow-md relative"
       style={{
         backgroundColor: theme.mainBg,
         color: theme.color,

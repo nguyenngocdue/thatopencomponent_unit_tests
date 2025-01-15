@@ -56,29 +56,29 @@ export const Grid = () => {
           <bim-panel-section collapsed label="Controls">
             <bim-checkbox label="Grid visible" checked 
               @change="${({ target }: { target: BUI.Checkbox }) => {
-                grid.config.visible = target.value;
-              }}">
+          grid.config.visible = target.value;
+        }}">
             </bim-checkbox>
             
             <bim-color-input 
               label="Grid Color" color="#bbbbbb" 
               @input="${({ target }: { target: BUI.ColorInput }) => {
-                grid.config.color = new THREE.Color(target.color);
-              }}">
+          grid.config.color = new THREE.Color(target.color);
+        }}">
             </bim-color-input>
             
             <bim-number-input 
               slider step="0.1" label="Grid primary size" value="1" min="0" max="10"
               @change="${({ target }: { target: BUI.NumberInput }) => {
-                grid.config.primarySize = target.value;
-              }}">
+          grid.config.primarySize = target.value;
+        }}">
             </bim-number-input>
             
             <bim-number-input 
               slider step="0.1" label="Grid secondary size" value="10" min="0" max="20"
               @change="${({ target }: { target: BUI.NumberInput }) => {
-                grid.config.secondarySize = target.value;
-              }}">
+          grid.config.secondarySize = target.value;
+        }}">
             </bim-number-input>
           </bim-panel-section>
         </bim-panel>
@@ -112,7 +112,6 @@ export const Grid = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       stats.dom.remove();
-      world.renderer.dispose();
       geometry.dispose();
     };
   }, []);
@@ -123,19 +122,23 @@ export const Grid = () => {
       <div
         id="container"
         ref={containerRef}
-        style={{ position: 'relative', width: '100vw', height: '100vh' }}
       >
       </div>
-      {containerRef.current && sceneRef.current && cameraRef.current && gridGeometryRef.current && rendererRef.current && (
-        <Cube
-          container={containerRef.current}
-          scene={sceneRef.current}
-          camera={cameraRef.current}
-          geometry={gridGeometryRef.current}
-          renderer={rendererRef.current}
-        />
-      )}
+
+      <div className=''>
+        {containerRef.current && sceneRef.current && cameraRef.current && gridGeometryRef.current && rendererRef.current && (
+          <Cube
+            container={containerRef.current}
+            scene={sceneRef.current}
+            camera={cameraRef.current}
+            geometry={gridGeometryRef.current}
+            renderer={rendererRef.current}
+          />
+        )}
+      </div>
+
+      
     </>
   );
-  
+
 };

@@ -17,10 +17,7 @@ export const Cube = ({ container, scene, camera, geometry, renderer }: CubeProps
       console.error("scene, camera, geometry, and renderer must be provided as props.");
       return;
     }
-
-
-    console.log(container, scene, camera, geometry, renderer)
-
+    console.log(scene)
 
     const controls = new OrbitControls(camera, renderer.domElement);
 
