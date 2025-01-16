@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-     "watch": "tailwindcss -i ./src/index.css -o ./src/output.css --watch"
+    "watch": "tailwindcss -i ./src/index.css -o ./src/output.css --watch"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -25,6 +25,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-grid-layout": "^1.5.0",
+    "react-icons": "^5.4.0",
     "three": "^0.160.1",
     "web-ifc": "^0.0.66"
   },

@@ -7,7 +7,6 @@ import Toolbar from './components/layoutV1/Toolbar';
 import { Grid } from './components/Grid';
 import Panel from './components/layoutV1/Panel';
 
-
 function App() {
   const [content, setContent] = useState<string | null>(null);
 
@@ -23,7 +22,7 @@ function App() {
             <div className="grid grid-rows-1">
               <div className="grid grid-cols-12 h-10">
                 <div className="col-span-12">
-                  <Toolbar/>
+                  <Toolbar />
                 </div>
               </div>
             </div>
@@ -32,17 +31,17 @@ function App() {
               <div className="grid grid-cols-12 h-full">
                 <div className="col-span-3">
 
-                <Sidebar onSelect={(label) => setContent(label)} />
+                  <Sidebar onSelect={(label) => setContent(label)} />
 
-<div className="flex-1 bg-gray-50">
-  <Panel content={content} />
-</div>
+                  <div className="flex-1 bg-gray-50">
+                    <Panel content={content} />
+                  </div>
 
 
 
                 </div>
                 <div className="col-span-9 relative">
-                  <Grid/>
+                  {/* <Grid /> */}
                 </div>
               </div>
             </div>
