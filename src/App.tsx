@@ -1,54 +1,37 @@
 import React, { useState } from 'react';
 import './App.css';
-import Sidebar from './components/layoutV1/Sidebar';
-import Viewer from './components/layoutV1/Viewer';
-import Header from './components/layoutV1/Header';
-import Toolbar from './components/layoutV1/Toolbar';
-import { Grid } from './components/Grid';
-import Panel from './components/layoutV1/Panel';
+import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
+
+import Test from './components/UnitTests/Test';
+import TrimbleConnectViewer from './TrimbleConnectViewer';
+
+import ClippingGeometryTest from './components/UnitTests/ClippingGeometryTest';
+
+const tests = {
+  clipping_geometry: ClippingGeometryTest,
+  test2: Test,
+}
+
+function DynamicTest () {
+  const {testId} = useParams();
+  const TestComponent = testId ? tests[testId.toLowerCase() as keyof typeof tests] :  null;
+  if (!TestComponent) {
+    return <div>Test not found</div>
+  }
+  return <TestComponent/>
+}
+
 
 function App() {
-  const [content, setContent] = useState<string | null>(null);
-
   return (
-    <>
-      <div>
-        <header>
-          <Header />
-        </header>
-        <div>
-          <main className="w-full">
-            {/* Row 1 */}
-            <div className="grid grid-rows-1">
-              <div className="grid grid-cols-12 h-10">
-                <div className="col-span-12">
-                  <Toolbar />
-                </div>
-              </div>
-            </div>
-            {/* Row 2 */}
-            <div className="grid grid-rows-1">
-              <div className="grid grid-cols-12 h-full">
-                <div className="col-span-3">
-
-                  <Sidebar onSelect={(label) => setContent(label)} />
-
-                  <div className="flex-1 bg-gray-50">
-                    <Panel content={content} />
-                  </div>
-
-
-
-                </div>
-                <div className="col-span-9 relative">
-                  {/* <Grid /> */}
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
-      </div>
-    </>
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/unit_test/:testId" element={<DynamicTest/>} />
+          <Route path="/trimble_connect_viewer" element={<TrimbleConnectViewer/>} />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
   );
 }
 
