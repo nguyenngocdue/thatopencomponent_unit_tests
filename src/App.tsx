@@ -3,7 +3,7 @@ import ComplexGridLayout from './components/ComplexGridLayout';
 import './App.css';
 import { ThemeProvider } from './components/ThemeContext';
 import Test from './components/Test';
-import FaceSelection from './components/selection/SelectFace';
+import FaceSelection from './components/selection/PickFace';
 import BoxIndexSelection from './components/selection/PickObject';
 
 

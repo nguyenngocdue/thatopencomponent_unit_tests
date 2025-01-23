@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { acceleratedRaycast, computeBoundsTree, disposeBoundsTree } from 'three-mesh-bvh';
 import { highlightFace } from '../../lib/HighlightFace';
 
-const SelectFace = () => {
+const PickFace = () => {
     const mountRef = useRef(null);
 
     useEffect(() => {
@@ -96,4 +96,4 @@ const SelectFace = () => {
     return <div ref={mountRef} />;
 };
 
-export default SelectFace;
+export default PickFace;
