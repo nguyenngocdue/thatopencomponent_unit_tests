@@ -2,12 +2,16 @@ import React from 'react';
 import ComplexGridLayout from './components/ComplexGridLayout';
 import './App.css';
 import { ThemeProvider } from './components/ThemeContext';
+import Test from './components/Test';
+import FaceSelection from './components/selection/SelectFace';
+import BoxIndexSelection from './components/selection/PickObject';
 
 
 function App() {
   return (
     <ThemeProvider>
-      <ComplexGridLayout />
+      {/* <ComplexGridLayout /> */}
+      <BoxIndexSelection/>
     </ThemeProvider>
   );
 }
