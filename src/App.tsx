@@ -27,7 +27,7 @@ function App() {
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/unit_test/:testId" element={<DynamicTest/>} />
+          <Route path="/unit_tests/:testId" element={<DynamicTest/>} />
           <Route path="/trimble_connect_viewer" element={<TrimbleConnectViewer/>} />
         </Routes>
       </BrowserRouter>
