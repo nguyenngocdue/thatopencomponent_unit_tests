@@ -2,16 +2,17 @@ import React from 'react';
 import ComplexGridLayout from './components/ComplexGridLayout';
 import './App.css';
 import { ThemeProvider } from './components/ThemeContext';
-import Test from './components/Test';
-import FaceSelection from './components/selection/PickFace';
-import BoxIndexSelection from './components/selection/PickObject';
+import PhongMaterialExample from './components/shaders/PhongMaterialExample';
+
 
 
 function App() {
   return (
     <ThemeProvider>
       {/* <ComplexGridLayout /> */}
-      <BoxIndexSelection/>
+      {/* <SimpleWaveEffect/> */}
+      {/* <GradientBox/> */}
+      <PhongMaterialExample/>
     </ThemeProvider>
   );
 }
