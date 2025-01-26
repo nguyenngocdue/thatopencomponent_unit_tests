@@ -3,6 +3,7 @@ import ComplexGridLayout from './components/ComplexGridLayout';
 import './App.css';
 import { ThemeProvider } from './components/ThemeContext';
 import PhongMaterialExample from './components/shaders/PhongMaterialExample';
+import InteractiveCubes from './components/selection/InteractiveCubes';
 
 
 
@@ -12,7 +13,8 @@ function App() {
       {/* <ComplexGridLayout /> */}
       {/* <SimpleWaveEffect/> */}
       {/* <GradientBox/> */}
-      <PhongMaterialExample/>
+      {/* <PhongMaterialExample/> */}
+      <InteractiveCubes/>
     </ThemeProvider>
   );
 }
